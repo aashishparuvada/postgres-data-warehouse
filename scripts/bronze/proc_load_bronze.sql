@@ -7,6 +7,11 @@ Loads CSV data into bronze tables.
 
 Use your machine specific path at FROM while you load your datasets.
 Also make sure you have the files on the same host machine/server.
+
+The Path only works when you have Postgres Server directly running on host machine.
+If you are using Docker,
+ - In Mac: Mount your datasets as a volume to the docker container.
+ - In Windows: Have your files in same WSL2 machine that docker is running
 */
 
 CREATE OR REPLACE PROCEDURE bronze.load_bronze()
@@ -36,7 +41,7 @@ BEGIN
 
     RAISE NOTICE '>> Inserting Data Into: bronze.crm_cust_info';
     COPY bronze.crm_cust_info
-    FROM '/sql/dwh_project/datasets/source_crm/cust_info.csv'
+    FROM '/datasets/source_crm/cust_info.csv'
     WITH (FORMAT csv, HEADER true);
 
     end_time := CURRENT_TIMESTAMP;
@@ -54,7 +59,7 @@ BEGIN
 
     RAISE NOTICE '>> Inserting Data Into: bronze.crm_prd_info';
     COPY bronze.crm_prd_info
-    FROM '/sql/dwh_project/datasets/source_crm/prd_info.csv'
+    FROM '/datasets/source_crm/prd_info.csv'
     WITH (FORMAT csv, HEADER true);
 
     end_time := CURRENT_TIMESTAMP;
@@ -72,7 +77,7 @@ BEGIN
 
     RAISE NOTICE '>> Inserting Data Into: bronze.crm_sales_details';
     COPY bronze.crm_sales_details
-    FROM '/sql/dwh_project/datasets/source_crm/sales_details.csv'
+    FROM '/datasets/source_crm/sales_details.csv'
     WITH (FORMAT csv, HEADER true);
 
     end_time := CURRENT_TIMESTAMP;
@@ -93,7 +98,7 @@ BEGIN
     TRUNCATE TABLE bronze.erp_loc_a101;
 
     COPY bronze.erp_loc_a101
-    FROM '/sql/dwh_project/datasets/source_erp/loc_a101.csv'
+    FROM '/datasets/source_erp/loc_a101.csv'
     WITH (FORMAT csv, HEADER true);
 
     end_time := CURRENT_TIMESTAMP;
@@ -107,7 +112,7 @@ BEGIN
     TRUNCATE TABLE bronze.erp_cust_az12;
 
     COPY bronze.erp_cust_az12
-    FROM '/sql/dwh_project/datasets/source_erp/cust_az12.csv'
+    FROM '/datasets/source_erp/cust_az12.csv'
     WITH (FORMAT csv, HEADER true);
 
     end_time := CURRENT_TIMESTAMP;
@@ -121,7 +126,7 @@ BEGIN
     TRUNCATE TABLE bronze.erp_px_cat_g1v2;
 
     COPY bronze.erp_px_cat_g1v2
-    FROM '/sql/dwh_project/datasets/source_erp/px_cat_g1v2.csv'
+    FROM '/datasets/source_erp/px_cat_g1v2.csv'
     WITH (FORMAT csv, HEADER true);
 
     end_time := CURRENT_TIMESTAMP;
